@@ -276,6 +276,300 @@ class Employee1 extends Person4{
 let e= new Employee1("chandler");
 console.log("Id "+e.getId());
 
+//sets
+let mySet=Object.create(null);
+mySet.id=1;
+if(mySet.id){
+    console.log("id exists");
+    
+}
+
+
+//map
+let myMap=Object.create(null);
+myMap.name="Chandler";
+let val=myMap.name;
+console.log(val);
+myMap[100]="Hello";
+console.log(myMap["100"]);
+let ob1={};
+let ob2={};
+myMap[ob1]="Hello";
+console.log(myMap[ob1]);
+console.log(myMap[ob2]);
+console.log(ob1.toString());
+console.log(ob2.toString());
+
+
+//sets
+let mySet1=new Set();
+mySet1.add("Hello");
+mySet1.add(1);
+console.log(mySet1.size);
+let ob3={};
+let ob4={};
+mySet1.add(ob3);
+mySet1.add(ob4);
+console.log(mySet1.size);
+
+let newSet=new Set([1,2,3,4,5,5,5,5]);
+console.log(newSet);
+
+let chainSet=new Set().add("Hello").add(5).add("world");
+console.log(chainSet);
+
+
+console.log(newSet.has(1));
+console.log(newSet.delete(5));
+console.log(newSet.size);
+
+let mySet2=new Set();
+let key={};
+mySet2.add(key);
+console.log(mySet2.size);
+key=null;
+console.log(mySet2.size);
+key=[...mySet2][0];
+
+let myMap1=new Map();
+myMap1.set("fname","chandler");
+myMap1.set("age",32);
+console.log(myMap1.get("fname"));
+let obj1={};
+let obj2={};
+myMap1.set(obj1,10);
+myMap1.set(obj2,20);
+console.log(myMap1.get(obj1));
+console.log(myMap1.size);
+console.log(myMap1.has("fname"));
+myMap1.delete("fname");
+console.log(myMap1.has("fname"));
+myMap1.clear();
+console.log(myMap1);
+
+
+//for each loop
+
+
+let myMap2=new Map([
+    ["fname","chandler"],
+    ["lname","Bing"]
+]);
+
+for(let key of myMap2.keys()){
+    console.log(key);
+}
+for(let value of myMap2.values()){
+    console.log(value);   
+}
+
+
+for(let entry of myMap2.entries()){
+    console.log(`${entry[0]} --> ${entry[1]}`);
+    
+}
+for(let [key,value]of myMap2.entries()){
+    console.log(`${key} ->${value}`);
+    
+}
+
+
+
+var numbers=[2,3,4,5];
+numbers.forEach(arrayFunction);
+function arrayFunction(element,index,array){
+    console.log("arr["+index+"]="+element);
+    
+};
+
+let myMap3=new Map();
+    myMap3.set("fname","chandler"),
+    myMap3.set("lname","Bing")
+
+
+myMap3.forEach(myFunction)
+function myFunction(value,key,callingMap){
+    console.log(key+" "+value);
+    console.log(myMap3===callingMap);
+    
+}
+
+let mySets=new Set([1,2,3]);
+mySets.forEach(setFunction);
+function setFunction(value,key,callingSet){
+    console.log(key+" "+value);
+    console.log(mySets===callingSet);
+    
+    
+}
+
+
+//WeakMap
+let myMap4=new WeakMap();
+let obje={};
+myMap4.set(obje,"HelloWorld");
+console.log(myMap4.get(obje));
+//obje=null;
+
+
+
+//symbol
+
+let s=Symbol();
+console.log(typeof s);
+
+let s1=Symbol("First Symbol");
+console.log(s1.toString);
+
+let s2=Symbol("test");
+let s3=Symbol("test");
+console.log(s2===s3);                     //false
+
+let s4=Symbol.for("RegSymbol");
+let s5=Symbol.for("RegSymbol");
+console.log(s4===s5);                      //true
+
+console.log(Symbol.keyFor(s4));
+
+let fullName=Symbol();
+let Person5={
+    [fullName]:"chandler"
+};
+console.log(Object.getOwnPropertyNames(Person5));
+console.log(Object.getOwnPropertySymbols(Person5));
+
+
+//Symbol iterator
+
+let str="Hello";
+let arr=[1,2,3];
+let num=5;
+let objects={name:"chandler"};
+console.log("For String -"+typeof str[Symbol.iterator]);
+console.log("For Array -"+typeof arr[Symbol.iterator]);
+console.log("For Number -"+typeof num[Symbol.iterator]);
+console.log("For Object -"+typeof objects[Symbol.iterator]);
+
+
+//iterables and iterators
+
+let iterable=[1,2,3];
+function createIterator(array){
+    let count=0;
+    return{
+        next:function(){
+            return count<array.length ? {value : array[count++],Done : false } :
+            {value : undefined , Done : true};
+
+        }
+    }
+}
+let myIterator=createIterator(iterable);
+console.log(myIterator);
+console.log(myIterator);
+console.log(myIterator);
+console.log(myIterator);
+
+
+//iterating objects
+
+let persons={
+    fname:"chandler",
+    lname:"bing"
+};
+// for(let p of persons){
+//     console.log(p);
+    
+// }
+
+
+persons[Symbol.iterator]=function(){
+    let properties=Object.keys(persons);
+    let count=0;
+    let isDone=false;
+    let next=()=>{
+        if(count>properties.length){
+            isDone=true;
+        }
+    
+    return {done:isDone,value:this[properties[count++]]};
+}
+return{next};
+}
+for(let p of persons){
+    console.log(p);
+    
+}
+
+
+//generators
+
+function *creategenerator(){
+    yield 1;
+    console.log("After first yeild");
+    yield 2;
+
+}
+let mygen=creategenerator();
+console.log(mygen);
+
+let Person6={
+    fname:"chandler",
+    lname:"bing"
+};
+Person6[Symbol.iterator]=function*(){
+    let properties=Object.keys(Person6);
+    for(let t of properties){
+        yield this[t];
+    }
+};
+for(let p of Person6){
+    console.log(p);
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+console.log("-------------------------------");
+
+
+
+
+
+
+
+
+
+
 
 
 
